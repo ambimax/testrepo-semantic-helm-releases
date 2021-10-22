@@ -1,0 +1,26 @@
+name: release
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Run box version
+        id: release
+        uses: docker://ambimax/semantic-release:latest
+        env:
+          GH_TOKEN: ${{ secrets.AMBIMAX_GITHUB_RELEASE_TOKEN }}
+
+      - name: Test output
+        run: |
+          echo ${{join(steps.release.outputs.* '\n')}}
+          echo ${{ steps.release.output.SEMANTIC_VERSION }}
+          echo ${{ steps.release.output.GIT_VERSION }}

@@ -1,0 +1,34 @@
+{
+    "branches" : ["main", "master"],
+    "repositoryUrl" : "https://github.com/ambimax/testrepo-semantic-release-helm",
+    "debug": "true",
+    "plugin": [
+        "@semantic-release/commit-analyzer",
+        "@semantic-release/release-notes-generator",
+        [
+            "@semantic-release/changelog",
+            {
+              "changelogFile": "CHANGELOG.md"
+            }
+        ],
+        [
+            "@semantic-release/exec",
+            {
+                "prepareCmd": "echo \"SEMANTIC_VERSION=${nextRelease.version}\" >> $GITHUB_ENV && echo \"GIT_VERSION=v${nextRelease.version}\" >> $GITHUB_ENV"
+            }
+        ],
+        [
+            "semantic-release-helm",
+            {
+                "chartPath": "./chart"
+            }
+        ],
+        [
+            "@semantic-release/git",
+            {
+                "assets": ["Chart.yaml", "CHANGELOG.md"],
+                "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+            }
+        ]
+    ]
+}

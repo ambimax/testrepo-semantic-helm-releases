@@ -21,6 +21,6 @@ jobs:
 
       - name: Test output
         run: |
-          echo ${{join(steps.release.outputs.* '\n')}}
+          echo ${{join(steps.release.outputs.*, '\n')}}
           echo ${{ steps.release.output.SEMANTIC_VERSION }}
           echo ${{ steps.release.output.GIT_VERSION }}
